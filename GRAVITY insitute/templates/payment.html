@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Payment - {{ course.name }} - Gravity Teaching{% endblock %}
+
+{% block content %}
+<section class="payment-page">
+    <div class="payment-container glass-card">
+        <h1 class="montserrat">Course Enrollment</h1>
+        <div class="course-details">
+            <img src="https://via.placeholder.com/300x200/1e40af/ffffff?text={{ course.name }}" alt="{{ course.name }}">
+            <div class="course-info-large">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <div class="course-meta-large">
+                    <span>Duration: {{ course.duration }}</span>
+                    <span class="price-large">₹{{ course.price|round(0) }}</span>
+                </div>
+            </div>
+        </div>
+        <form method="POST">
+            <p class="payment-note">Secure Payment Simulation</p>
+            <button type="submit" class="btn btn-success btn-xl">Complete Payment & Enroll</button>
+        </form>
+        <div class="payment-links">
+            <a href="{{ url_for('student_dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

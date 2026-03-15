@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Gravity Teaching{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <h1 class="montserrat">Student Dashboard</h1>
+    <div class="welcome">
+        <h2>Welcome back! Access your enrolled courses.</h2>
+    </div>
+    
+    <section class="materials-section">
+        <h2>Study Materials & Notes</h2>
+        <div class="materials-grid">
+            {% for material in materials %}
+            <div class="material-card glass-card">
+                <h3>{{ material.title }}</h3>
+                <p>Course: {{ material.course.name if material.course else 'General' }}</p>
+                <p>Type: {{ material.material_type|upper }}</p>
+                {% if material.material_type == 'pdf' %}
+                <a href="{{ url_for('uploaded_file', filename=material.file_path) }}" class="btn btn-secondary" target="_blank" download>Download PDF</a>
+                {% else %}
+                <a href="/uploads/{{ material.material_type }}/{{ material.file_path }}" class="btn btn-primary" target="_blank">Watch Video</a>
+                {% endif %}
+            </div>
+            {% else %}
+            <p>No materials yet. Enroll in a course!</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="assignments-section">
+        <h2>Assignments</h2>
+        <div class="assignments-grid">
+            {% for assignment in assignments %}
+            <div class="assignment-card glass-card">
+                <h3>{{ assignment.title }}</h3>
+                <p>Due: {{ assignment.due_date if assignment.due_date else 'TBA' }}</p>
+                {% if assignment.file_path %}
+                <a href="{{ url_for('uploaded_file', filename=assignment.file_path) }}" class="btn btn-secondary">Download</a>
+                {% endif %}
+            </div>
+            {% else %}
+            <p>No assignments yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

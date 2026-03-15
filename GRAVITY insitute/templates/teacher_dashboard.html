@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard - Gravity Teaching{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <h1 class="montserrat">Teacher Dashboard</h1>
+    
+    <section class="upload-section">
+        <h2>Upload Study Material</h2>
+        <form method="POST" action="{{ url_for('upload_material') }}" enctype="multipart/form-data" class="upload-form glass-card">
+            <div class="form-group">
+                <label for="title">Material Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="course_id">Course</label>
+                <select id="course_id" name="course_id" required>
+                    <option value="">Select Course</option>
+                    {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="material_type">Type</label>
+                <select id="material_type" name="material_type" required>
+                    <option value="pdf">PDF Notes</option>
+                    <option value="video">Video Lecture</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="file">Upload File</label>
+                <input type="file" id="file" name="file" accept=".pdf,.mp4,.avi,.mkv" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Material</button>
+        </form>
+    </section>
+
+    <section class="uploaded-materials">
+        <h2>Your Uploaded Materials</h2>
+        <div class="materials-list">
+            {% for material in materials %}
+            <div class="material-item glass-card">
+                <h3>{{ material.title }}</h3>
+                <p>Course: {{ material.course.name if material.course else 'N/A' }}</p>
+            </div>
+            {% else %}
+            <p>No materials uploaded yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

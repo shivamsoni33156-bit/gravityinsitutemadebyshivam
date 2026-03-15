@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Gravity Teaching{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title montserrat">Gravity Teaching – Build Your Future With the Best Guidance</h1>
+        <p class="hero-subtitle">India's leading institute for IIT-JEE, NEET, and foundation courses.</p>
+        <a href="{{ url_for('courses') }}" class="btn btn-primary btn-large">Explore Courses</a>
+    </div>
+</section>
+
+<!-- About Institute -->
+<section class="about-section">
+    <div class="section-header">
+        <h2>About Gravity Institute</h2>
+        <p>Established with a mission to provide top-quality education for competitive exams.</p>
+    </div>
+</section>
+
+<!-- Courses Offered -->
+<section class="courses-featured">
+    <div class="section-header">
+        <h2>Popular Courses</h2>
+    </div>
+    <div class="courses-grid">
+        {% for course in courses[:3] %}
+        <div class="course-card glass-card">
+            <div class="course-image">
+                <img src="https://via.placeholder.com/400x250/1e3a8a/ffffff?text={{ course.name }}" alt="{{ course.name }}">
+            </div>
+            <div class="course-info">
+                <h3>{{ course.name }}</h3>
+                <p>{{ course.description[:100] }}...</p>
+                <div class="course-meta">
+                    <span>Duration: {{ course.duration }}</span>
+                    <span>₹{{ course.price|round(0) }}</span>
+                </div>
+                <a href="{{ url_for('payment', course_id=course.id) }}" class="btn btn-secondary">Enroll Now</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{{ url_for('courses') }}" class="btn btn-primary">View All Courses</a>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+    <div class="section-header">
+        <h2>What Students Say</h2>
+    </div>
+    <div class="testimonial-slider">
+        <div class="testimonial-card glass-card">
+            <p>"Best guidance for JEE. Cleared with top rank!"</p>
+            <h4>- Top Ranker 2024</h4>
+        </div>
+        <!-- More placeholders -->
+    </div>
+</section>
+{% endblock %}

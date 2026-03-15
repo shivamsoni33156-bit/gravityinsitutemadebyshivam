@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gravity Teaching - Build Your Future{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    {% block head %}{% endblock %}
+</head>
+<body class="gravity-bg">
+    <!-- Header Hero -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1 class="logo-text">Gravity Teaching</h1>
+                <p class="slogan">Build Your Future With the Best Guidance</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar sticky">
+        <div class="container">
+            <div class="nav-logo">
+                <a href="{{ url_for('home') }}">Gravity</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                {% if 'user_id' in session %}
+                    <li><a href="{{ url_for('%s_dashboard' % session.role) }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('student_signup') }}">Student Signup</a></li>
+                    <li><a href="{{ url_for('student_login') }}">Student Login</a></li>
+                    <li><a href="{{ url_for('teacher_login') }}">Teacher Login</a></li>
+                    <li><a href="{{ url_for('admin_login') }}">Admin Login</a></li>
+                {% endif %}
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Gravity Teaching</h3>
+                    <p>Leading institute for IIT-JEE, NEET &amp; School preparations.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Phone: +91 12345 67890</p>
+                    <p>Email: info@gravityteaching.com</p>
+                    <p>Address: Your City, India</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gravity Teaching. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

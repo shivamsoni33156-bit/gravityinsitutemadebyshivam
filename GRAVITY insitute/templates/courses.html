@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Courses - Gravity Teaching{% endblock %}
+
+{% block content %}
+<section class="courses-page">
+    <div class="section-header text-center">
+        <h1 class="montserrat">Our Courses</h1>
+        <p>Choose from our comprehensive preparation programs</p>
+    </div>
+    <div class="courses-grid">
+        {% for course in courses %}
+        <div class="course-card glass-card">
+            <div class="course-image">
+                <img src="https://via.placeholder.com/400x250/0ea5e9/ffffff?text={{ course.name }}" alt="{{ course.name }}">
+            </div>
+            <div class="course-info">
+                <h3>{{ course.name }}</h3>
+                <p>{{ course.description }}</p>
+                <div class="course-meta">
+                    <span class="duration">Duration: {{ course.duration }}</span>
+                    <span class="price">₹{{ course.price|round(0) }}</span>
+                </div>
+                <a href="{{ url_for('payment', course_id=course.id) }}" class="btn btn-primary">Enroll Now</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

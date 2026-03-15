@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Login - Gravity Teaching{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-container glass-card">
+        <h1 class="montserrat">Teacher Login</h1>
+        <p class="demo-info">Demo: physics@gravity.com / teacherpass</p>
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Login</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

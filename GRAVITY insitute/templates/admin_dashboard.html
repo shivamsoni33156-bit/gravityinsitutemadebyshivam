@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Gravity Teaching{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <h1 class="montserrat">Admin Dashboard</h1>
+    
+    <div class="admin-stats">
+        <div class="stat-card glass-card">
+            <h2>{{ students|length }}</h2>
+            <p>Total Students</p>
+        </div>
+        <div class="stat-card glass-card">
+            <h2>{{ payments|length }}</h2>
+            <p>Total Payments</p>
+        </div>
+        <div class="stat-card glass-card">
+            <h2>{{ teachers|length }}</h2>
+            <p>Teachers</p>
+        </div>
+    </div>
+
+    <section class="students-section">
+        <h2>Students</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.email }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="payments-section">
+        <h2>Payments</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ payment.id }}</td>
+                    <td>{{ payment.student.name }}</td>
+                    <td>{{ payment.course.name if payment.course else 'N/A' }}</td>
+                    <td>₹{{ payment.amount }}</td>
+                    <td><span class="status {{ payment.status }}">{{ payment.status.upper() }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="teachers-section">
+        <h2>Teachers</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.id }}</td>
+                    <td>{{ teacher.name }}</td>
+                    <td>{{ teacher.email }}</td>
+                    <td>{{ teacher.subject }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_teacher', teacher_id=teacher.id) }}" 
+                           class="btn" onclick="return confirm('Delete {{ teacher.name }}?')" 
+                           style="padding: 5px 10px; font-size: 0.8rem; background: #ef4444; color: white;">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="crud-section">
+        <h2>Manage Content</h2>
+        <div class="crud-forms">
+            <div class="glass-card">
+                <h3>Add Course</h3>
+                <form method="POST" action="{{ url_for('add_course') }}">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <input type="text" name="duration" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₹)</label>
+                        <input type="number" name="price" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Course</button>
+                </form>
+            </div>
+
+            <div class="glass-card">
+                <h3>Add Teacher</h3>
+                <form method="POST" action="{{ url_for('add_teacher') }}">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" name="subject" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Teacher</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="courses-management glass-card">
+            <h3>Manage Courses</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.id }}</td>
+                        <td>{{ course.name }}</td>
+                        <td>₹{{ course.price }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_course', course_id=course.id) }}" 
+                               class="btn" onclick="return confirm('Delete {{ course.name }}?')" 
+                               style="padding: 5px 10px; font-size: 0.8rem; background: #ef4444; color: white;">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+{% endblock %}
